@@ -1,41 +1,59 @@
-class Node{
-    data;
-    left;
-    right;
+class Node {
+  data=null;
+  left=null;
+  right=null;
+
+  constructor(data){
+    this.data = data;
+  }
 }
 
-class Tree{
-    root = buildTree();
+class Tree {
+  root = buildTree();
 
-    buildTree(array){
+  buildTree(array) {}
 
+  insertNode(root, data) {
+    const newNode = new Node(data);
+    if(find(this.root,newNode)){
+        return ("Error - data already exists in this tree");
     }
-
-    insertNode(){
-
+    if(root.data > newNode.data && root.left == null){
+     return   root.left = newNode;
     }
-
-    deleteNode(){
-
+    if(root.data < newNode.data && root.right == null){
+        root.right = newNode;
     }
+  }
 
-    find(){
+  deleteNode() {}
 
+  find(root, data) {
+    if (root == null) {
+      return null;
     }
-
-    levelOrder(callback){
-
+    if (root.data === data) {
+      return root;
     }
+    if (root.data > data) {
+      this.find(root.left, data);
+    }
+    if (root.data < data) {
+      this.find(root.right, data);
+    }
+  }
 
-    inOrder(){}
-    preOrder(){}
-    postOrder(){}
+  levelOrder(callback) {}
 
-    height(node){}
+  inOrder() {}
+  preOrder() {}
+  postOrder() {}
 
-    depth(node){}
+  height(node) {}
 
-    isBalanced(){}
+  depth(node) {}
 
-    rebalance(){}
+  isBalanced() {}
+
+  rebalance() {}
 }
