@@ -1,32 +1,55 @@
 class Node {
-  data=null;
-  left=null;
-  right=null;
+  data = null;
+  left = null;
+  right = null;
 
-  constructor(data){
+  constructor(data) {
     this.data = data;
   }
 }
 
 class Tree {
-  root = buildTree();
+  root = null;
 
   buildTree(array) {}
 
-  insertNode(root, data) {
+  insertNode(data) {
     const newNode = new Node(data);
-    if(find(this.root,newNode)){
-        return ("Error - data already exists in this tree");
+    if (this.root == null) {
+      return (this.root = newNode);
     }
-    if(root.data > newNode.data && root.left == null){
-     return   root.left = newNode;
+    if (find(this.root, newNode)) {
+      return "Error - data already exists in this tree";
     }
-    if(root.data < newNode.data && root.right == null){
-        root.right = newNode;
+    let pointer = this.root;
+    while (pointer != null) {
+      if (pointer.data > newNode.data) {
+        if (pointer.left == null) {
+          return (pointer.left = newNode);
+        } else {
+          pointer = pointer.left;
+        }
+      } else {
+        if (pointer.right == null) {
+          return (pointer.right = newNode);
+        } else {
+          pointer = pointer.right;
+        }
+      }
     }
   }
 
-  deleteNode() {}
+  deleteNode(data) {
+    const delNode = find(this.root,data);
+    if (delNode == null) {
+        return "Error - data to be deleted doesn't exists in this tree";
+    }
+    let pointer = this.root;
+    while (pointer != delNode) {
+        
+    }
+
+  }
 
   find(root, data) {
     if (root == null) {
