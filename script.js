@@ -247,14 +247,18 @@ class Tree {
     }
   }
 
-  isBalanced() {
-    if (this.root == null) {
-      return "Error - Tree doesn't exists.";
-    }
-    if (this.root.left == this.root.right) {
+  isBalanced(root = this.root) {
+    if (root == null) {
       return true;
     }
-    if (this.height(this.root.left) == this.height(this.root.right)) {
+    let leftHeight = this.height(this.root.left);
+    let rightHeight = this.height(this.root.right);
+    const heightDifference = (leftHeight - rightHeight) * -1;
+    if (
+      heightDifference <= 1 &&
+      this.isBalanced(root.left) &&
+      this.isBalanced(root.right)
+    ) {
       return true;
     } else {
       return false;
