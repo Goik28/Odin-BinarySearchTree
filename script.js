@@ -247,7 +247,19 @@ class Tree {
     }
   }
 
-  isBalanced() {}
+  isBalanced() {
+    if (this.root == null) {
+      return "Error - Tree doesn't exists.";
+    }
+    if (this.root.left == this.root.right) {
+      return true;
+    }
+    if (this.height(this.root.left) == this.height(this.root.right)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   rebalance() {}
 }
