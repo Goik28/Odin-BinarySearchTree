@@ -158,9 +158,44 @@ class Tree {
 
   levelOrder(callback) {}
 
-  inOrder() {}
-  preOrder() {}
-  postOrder() {}
+  inOrder(pointer = this.root) {
+    if (this.root == null) {
+      return "Error - Tree is empty";
+    }
+    const array = [];
+    if (pointer != null) {
+      array.push(...this.inOrder(pointer.left));
+      array.push(pointer.data);
+      array.push(...this.inOrder(pointer.right));
+    }
+    return array;
+  }
+
+  preOrder(pointer = this.root) {
+    if (this.root == null) {
+      return "Error - Tree is empty";
+    }
+    const array = [];
+    if (pointer != null) {
+      array.push(pointer.data);
+      array.push(...this.preOrder(pointer.left));
+      array.push(...this.preOrder(pointer.right));
+    }
+    return array;
+  }
+
+  postOrder(pointer = this.root) {
+    if (this.root == null) {
+      return "Error - Tree is empty";
+    }
+    const array = [];
+    if (pointer != null) {
+      array.push(...this.postOrder(pointer.left));
+      array.push(...this.postOrder(pointer.right));
+      array.push(pointer.data);
+    }
+    return array;
+  }
 
   height(node) {}
 
