@@ -156,7 +156,20 @@ class Tree {
     }
   }
 
-  levelOrder(callback) {}
+  levelOrder(callback) {
+    let pointer = this.root;
+    const queue = [];
+    while (pointer != null || pointer != undefined) {
+      queue.push(pointer);
+      if (pointer.left != null) {
+        queue.push(pointer.left);
+      }
+      if (pointer.right != null) {
+        queue.push(pointer.right);
+      }
+      pointer = queue.shift();
+    }
+  }
 
   inOrder(pointer = this.root) {
     if (this.root == null) {
