@@ -156,11 +156,12 @@ class Tree {
     }
   }
 
-  levelOrder(callback) {
+  levelOrder(callback = false) {
     let pointer = this.root;
     const queue = [];
+    const finalArray = [];
     while (pointer != null || pointer != undefined) {
-      queue.push(pointer);
+      finalArray.push(pointer);
       if (pointer.left != null) {
         queue.push(pointer.left);
       }
@@ -168,6 +169,13 @@ class Tree {
         queue.push(pointer.right);
       }
       pointer = queue.shift();
+    }
+    if (callback == false) {
+      return finalArray;
+    } else {
+      for (let index = 0; index < finalArray.length; index++) {
+        callback(array[index]);
+      }
     }
   }
 
