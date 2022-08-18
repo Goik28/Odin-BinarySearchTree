@@ -218,9 +218,34 @@ class Tree {
     return array;
   }
 
-  height(node) {}
+  height(node) {
+    if (node == null) {
+      return 0;
+    }
+    let leftDepth = this.height(node.left);
+    let rightDepth = this.height(node.right);
+    if (leftDepth > rightDepth) {
+      return leftDepth + 1;
+    } else {
+      return rightDepth + 1;
+    }
+  }
 
-  depth(node) {}
+  depth(root = this.root, node) {
+    while (root != null || node != null) {
+      if (node == root) {
+        return 0;
+      } else {
+        let leftDepth = this.depth(node, node.left);
+        let rightDepth = this.depth(node, node.right);
+        if (leftDepth > rightDepth) {
+          return leftDepth + 1;
+        } else {
+          return rightDepth + 1;
+        }
+      }
+    }
+  }
 
   isBalanced() {}
 
