@@ -40,15 +40,105 @@ class Tree {
   }
 
   deleteNode(data) {
-    const delNode = find(this.root,data);
+    const delNode = find(this.root, data);
     if (delNode == null) {
-        return "Error - data to be deleted doesn't exists in this tree";
+      return "Error - data to be deleted doesn't exists in this tree";
     }
-    let pointer = this.root;
-    while (pointer != delNode) {
-        
+    const delNodeParent = this.findParent(this.root, delNode); //delNodeParent = null if delNode is the root of the tree.
+    //case1 - no children
+    if (delNode.left == null && delNode.right == null) {
+      if (delNodeParent == null) {
+        return (this.root = null);
+      }
+      if (delNodeParent.left === delNode) {
+        return (delNodeParent.left = null);
+      } else {
+        return (delNodeParent.right = null);
+      }
     }
+    //case2 - only one child, first left, then right.
+    if (delNode.left != null && delNode.right == null) {
+      if (delNodeParent == null) {
+        return (this.root = delNode.left);
+      }
+      if (delNodeParent.left === delNode) {
+        return (delNodeParent.left = delNode.left);
+      } else {
+        return (delNodeParent.right = delNode.left);
+      }
+    }
+    if (delNode.left == null && delNode.right != null) {
+      if (delNodeParent == null) {
+        this.root = delNode.right;
+      }
+      if (delNodeParent.left === delNode) {
+        return (delNodeParent.left = delNode.right);
+      } else {
+        return (delNodeParent.right = delNode.right);
+      }
+    }
+    //case3 - two children.
+    if (delNode.left != null && delNode.right != null) {
+      const delNodeSuccessor = this.nodeSuccessor(delNode);
+      const delNodeSuccessorParent = this.findParent(
+        this.root,
+        delNodeSuccessor
+      );
+      if (delNodeSuccessorParent == delNode) {
+        if (delNodeParent.left === delNode) {
+          delNodeParent.left = delNodeSuccessor;
+          delNodeSuccessor.left = delNode.left;
+          delNodeSuccessor.right = delNode.right;
+          return;
+        } else {
+          delNodeParent.right = delNodeSuccessor;
+          delNodeSuccessor.left = delNode.left;
+          delNodeSuccessor.right = delNode.right;
+          return;
+        }
+      } else {
+        if (delNodeParent.left === delNode) {
+          delNodeParent.left = delNodeSuccessor;
+          delNodeSuccessor.left = delNode.left;
+          delNodeSuccessor.right = delNode.right;
+          delNodeSuccessorParent.left = delNodeSuccessor.right;
+          return;
+        } else {
+          delNodeParent.right = delNodeSuccessor;
+          delNodeSuccessor.left = delNode.left;
+          delNodeSuccessor.right = delNode.right;
+          delNodeSuccessorParent.left = delNodeSuccessor.right;
+          return;
+        }
+      }
+    }
+  }
 
+  nodeSuccessor(node) {
+    if (node.right != null) {
+      node = node.right;
+      while (node.left != null) {
+        node = node.left;
+      }
+      return node;
+    }
+    return null;
+  }
+
+  findParent(root, node) {
+    if (node == root) {
+      return null;
+    }
+    if (root.left == node || root.right == node) {
+      return root;
+    } else {
+      if (root.data > node.data) {
+        this.findParent(root.left, node);
+      }
+      if (root.data < node.data) {
+        this.findParent(root.right, node);
+      }
+    }
   }
 
   find(root, data) {
