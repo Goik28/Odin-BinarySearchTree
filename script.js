@@ -18,15 +18,17 @@ class Tree {
   }
 
   prepArray(array) {
-    array = array.sort();
-    return new Set(array);
+    array = array.sort((a, b) => a - b);
+    array = new Set(array);
+    array = Array.from(array);
+    return array;
   }
 
   reduceInsert(array) {
     let midPoint;
     if (array.length > 2) {
       midPoint = array.splice((array.length - 1) / 2, 1);
-      this.insertNode(midPoint);
+      this.insertNode(...midPoint);
       let leftArray = array.slice(0, array.length / 2);
       let rightArray = array.slice(array.length / 2);
       this.reduceInsert(leftArray);
@@ -48,7 +50,7 @@ class Tree {
     if (this.root == null) {
       return (this.root = newNode);
     }
-    if (find(this.root, newNode)) {
+    if (this.find(this.root, data)) {
       return "Error - data already exists in this tree";
     }
     let pointer = this.root;
@@ -179,10 +181,10 @@ class Tree {
       return root;
     }
     if (root.data > data) {
-      this.find(root.left, data);
+      return this.find(root.left, data);
     }
     if (root.data < data) {
-      this.find(root.right, data);
+      return this.find(root.right, data);
     }
   }
 
@@ -204,7 +206,7 @@ class Tree {
       return finalArray;
     } else {
       for (let index = 0; index < finalArray.length; index++) {
-        callback(array[index]);
+        callback(finalArray[index]);
       }
     }
   }
@@ -250,7 +252,7 @@ class Tree {
 
   height(node) {
     if (node == null) {
-      return 0;
+      return -1;
     }
     let leftDepth = this.height(node.left);
     let rightDepth = this.height(node.right);
@@ -262,19 +264,22 @@ class Tree {
   }
 
   depth(root = this.root, node) {
-    while (root != null || node != null) {
+    while (root != null) {
       if (node == root) {
         return 0;
       } else {
-        let leftDepth = this.depth(node, node.left);
-        let rightDepth = this.depth(node, node.right);
+        let leftDepth = this.depth(root.left, node);
+        let rightDepth = this.depth(root.right, node);
         if (leftDepth > rightDepth) {
           return leftDepth + 1;
-        } else {
+        }
+        if (leftDepth < rightDepth) {
           return rightDepth + 1;
         }
+        return -1;
       }
     }
+    return -1;
   }
 
   isBalanced(root = this.root) {
@@ -301,3 +306,38 @@ class Tree {
     this.buildTree(array);
   }
 }
+
+//drive
+const myTree = new Tree();
+myTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+console.log(myTree.isBalanced()); /*
+console.log(myTree.inOrder());
+console.log(myTree.preOrder());
+console.log(myTree.postOrder());
+console.log(myTree.insertNode(7));*/
+myTree.insertNode(107);
+myTree.insertNode(127);
+myTree.insertNode(137);
+myTree.insertNode(87);
+myTree.insertNode(157);
+myTree.insertNode(207);
+myTree.insertNode(227);
+myTree.insertNode(237);
+myTree.insertNode(257);
+myTree.insertNode(267);
+console.log(myTree.isBalanced()); /*
+console.log(myTree.inOrder());
+console.log(myTree.preOrder());
+console.log(myTree.postOrder());*/
+myTree.reBalance();
+console.log(myTree.isBalanced()); /*
+console.log(myTree.inOrder());*/
+console.log(myTree.preOrder()); /*
+console.log(myTree.postOrder());*/
+
+console.log(myTree.find(myTree.root, 87)); /*
+console.log(myTree.find(myTree.root,57));
+console.log(myTree.levelOrder((x)=>{console.log(x.data)}));*/
+
+console.log(myTree.height(myTree.find(myTree.root, 23)));
+console.log(myTree.depth(myTree.root, myTree.find(myTree.root, 6345)));
