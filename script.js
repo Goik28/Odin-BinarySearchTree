@@ -13,63 +13,34 @@ class Tree {
 
   buildTree(array) {
     array = this.prepArray(array);
-    let midPoint = noDupArray.splice((array.length - 1) / 2, 1);
-    let leftArray = noDupArray.slice(0, array.length / 2);
-    let rightArray = noDupArray.slice(array.length / 2);
-    while (noDupArray.size > 1) {
-      this.insertNode;
-    }
-
-    if (leftArray.length > 1) {
-      leftArray = mergeSort(leftArray);
-    }
-    if (rightArray.length > 1) {
-      rightArray = mergeSort(rightArray);
-    }
-    while (true) {
-      if (leftArray[0] <= rightArray[0]) {
-        sortedArray.push(leftArray[0]);
-        leftArray.shift();
-      } else {
-        sortedArray.push(rightArray[0]);
-        rightArray.shift();
-      }
-      if (leftArray.length == 0) {
-        sortedArray.push(...rightArray);
-        break;
-      }
-      if (rightArray.length == 0) {
-        sortedArray.push(...leftArray);
-        break;
-      }
-    }
-    return sortedArray;
+    this.reduceInsert(array);
+    return this.root;
   }
 
   prepArray(array) {
     array = array.sort();
     return new Set(array);
   }
+
   reduceInsert(array) {
     let midPoint;
-    if (array.length != 1) {
-      midPoint = array.splice((array.length - 1) / 2, 1);
-    } else {
-      midPoint = array.shift();
-    }
-    let leftArray;
-    let rightArray;
-    if (array>1) {
-        leftArray = array.slice(0, array.length / 2);
-        rightArray = array.slice(array.length / 2);    
-    }
-    
     if (array.length > 2) {
+      midPoint = array.splice((array.length - 1) / 2, 1);
+      this.insertNode(midPoint);
+      let leftArray = array.slice(0, array.length / 2);
+      let rightArray = array.slice(array.length / 2);
       this.reduceInsert(leftArray);
       this.reduceInsert(rightArray);
     }
-    this.insertNode(midPoint);
-    return;
+    if (array.length == 2) {
+      this.insertNode(array[0]);
+      this.insertNode(array[1]);
+      return;
+    }
+    if (array.length == 1) {
+      this.insertNode(array.shift());
+      return;
+    }
   }
 
   insertNode(data) {
@@ -324,5 +295,9 @@ class Tree {
     }
   }
 
-  rebalance() {}
+  reBalance() {
+    let array = this.inOrder();
+    this.root = null;
+    this.buildTree(array);
+  }
 }
