@@ -72,7 +72,7 @@ class Tree {
   }
 
   deleteNode(data) {
-    const delNode = find(this.root, data);
+    const delNode = this.find(this.root, data);
     if (delNode == null) {
       return "Error - data to be deleted doesn't exists in this tree";
     }
@@ -138,8 +138,8 @@ class Tree {
         } else {
           delNodeParent.right = delNodeSuccessor;
           delNodeSuccessor.left = delNode.left;
-          delNodeSuccessor.right = delNode.right;
           delNodeSuccessorParent.left = delNodeSuccessor.right;
+          delNodeSuccessor.right = delNode.right;
           return;
         }
       }
@@ -165,10 +165,10 @@ class Tree {
       return root;
     } else {
       if (root.data > node.data) {
-        this.findParent(root.left, node);
+        return this.findParent(root.left, node);
       }
       if (root.data < node.data) {
-        this.findParent(root.right, node);
+        return this.findParent(root.right, node);
       }
     }
   }
@@ -310,11 +310,11 @@ class Tree {
 //drive
 const myTree = new Tree();
 myTree.buildTree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(myTree.isBalanced()); /*
+console.log(myTree.isBalanced());
 console.log(myTree.inOrder());
 console.log(myTree.preOrder());
 console.log(myTree.postOrder());
-console.log(myTree.insertNode(7));*/
+console.log(myTree.insertNode(7));
 myTree.insertNode(107);
 myTree.insertNode(127);
 myTree.insertNode(137);
@@ -325,19 +325,26 @@ myTree.insertNode(227);
 myTree.insertNode(237);
 myTree.insertNode(257);
 myTree.insertNode(267);
-console.log(myTree.isBalanced()); /*
+console.log(myTree.isBalanced());
 console.log(myTree.inOrder());
 console.log(myTree.preOrder());
-console.log(myTree.postOrder());*/
+console.log(myTree.postOrder());
 myTree.reBalance();
-console.log(myTree.isBalanced()); /*
-console.log(myTree.inOrder());*/
-console.log(myTree.preOrder()); /*
-console.log(myTree.postOrder());*/
-
-console.log(myTree.find(myTree.root, 87)); /*
-console.log(myTree.find(myTree.root,57));
-console.log(myTree.levelOrder((x)=>{console.log(x.data)}));*/
-
+console.log(myTree.isBalanced());
+console.log(myTree.inOrder());
+console.log(myTree.preOrder());
+console.log(myTree.postOrder());
+console.log(myTree.find(myTree.root, 87));
+console.log(myTree.find(myTree.root, 57));
+console.log(
+  myTree.levelOrder((x) => {
+    console.log(x.data);
+  })
+);
 console.log(myTree.height(myTree.find(myTree.root, 23)));
 console.log(myTree.depth(myTree.root, myTree.find(myTree.root, 6345)));
+myTree.deleteNode(207);
+myTree.deleteNode(4);
+myTree.deleteNode(227);
+console.log(myTree.isBalanced());
+console.log(myTree.preOrder());
